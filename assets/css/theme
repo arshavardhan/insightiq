@@ -1,0 +1,63 @@
+/* assets/css/theme.css */
+/* Minimal theme: dark header, red accents, rounded cards */
+
+:root {
+  --accent: #e50914;
+  --bg: #0f0f0f;
+  --panel: #121212;
+  --muted: #bdbdbd;
+  --card-radius: 12px;
+}
+
+body {
+  background-color: var(--bg);
+  color: #ffffff;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+.header {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:18px;
+  background: linear-gradient(90deg, rgba(20,20,20,0.95), rgba(18,18,18,0.9));
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.card {
+  background-color: var(--panel);
+  border-radius: var(--card-radius);
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.kpi {
+  display:flex;
+  gap:18px;
+  align-items:center;
+}
+
+.kpi .value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.small-muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* make plotly charts have rounded corners when embedded */
+.plotly-graph-div {
+  border-radius: 8px;
+  overflow: hidden;
+}
