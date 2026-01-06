@@ -1,68 +1,91 @@
-# app.py
-# Streamlit front-end and orchestrator for InsightIQ
-
 import streamlit as st
-from core.pipeline_manager import PipelineManager  # Ensure core/__init__.py exists
-from services.logger import get_logger
-import yaml
-from pathlib import Path
+import pandas as pd
 
-# --- Load config ---
-CONFIG_PATH = Path("config.yaml")
-if CONFIG_PATH.exists():
-    with open(CONFIG_PATH, "r") as f:
-        config = yaml.safe_load(f)
-else:
-    config = {}
+# SQL Server connector
+from services.sql_server import connect_sql_server, fetch_table, fetch_query
 
-# --- Setup logger ---
-logger = get_logger()
+# -------------------------------
+# Core InsightIQ Pipeline Stubs
+# -------------------------------
+def run_pipeline(df: pd.DataFrame):
+    """
+    Main InsightIQ processing pipeline
+    """
+    st.subheader("📊 Dataset Preview")
+    st.dataframe(df.head())
 
+    st.subheader("📈 Basic Statistics")
+    st.write(df.describe(include="all"))
+
+    st.subheader("🧠 AI Insights (Sample)")
+    st.info(
+        "Automatically generated business insights will appear here "
+        "(KPI detection, summaries, PDF reports, dashboards, etc.)"
+    )
+
+# -------------------------------
+# Streamlit UI
+# -------------------------------
 st.set_page_config(page_title="InsightIQ", layout="wide")
-st.title("🔎 InsightIQ — Automated Business Intelligence Pipeline")
 
-# Sidebar
-st.sidebar.header("Configuration")
-st.sidebar.write(f"Mode: {config.get('app', {}).get('mode','local')}")
-max_file_mb = config.get("app", {}).get("max_file_size_mb", 100)
+st.title("🚀 InsightIQ – Automated Business Intelligence Platform")
+st.caption("No-code analytics pipeline for CSV and SQL data sources")
 
-# File upload
-uploaded_file = st.file_uploader("Upload CSV/XLSX dataset", type=["csv", "xlsx"])
-pm = PipelineManager(config=config)
+st.sidebar.header("🔌 Data Source")
 
-if uploaded_file:
-    try:
-        with st.spinner("Loading dataset..."):
-            df = pm.load_dataset(uploaded_file)
-            st.success(f"Loaded dataset — {len(df):,} rows × {len(df.columns):,} columns")
-            st.write("### Raw data sample")
-            st.dataframe(df.head(250))
+source_type = st.sidebar.selectbox(
+    "Select data source",
+    ["CSV Upload", "SQL Server"]
+)
 
-        if st.button("Run Full Analysis"):
-            with st.spinner("Running full pipeline..."):
-                result = pm.run_full_pipeline(df)
-            st.success("Analysis complete ✅")
+# -------------------------------
+# CSV Upload
+# -------------------------------
+if source_type == "CSV Upload":
+    uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
-            st.write("### Key Performance Indicators (KPIs)")
-            st.json(result["kpis"])
-#if result.get("profile_html"):
-#st.write("### Profiling Report")
-#st.components.v1.html(result["profile_html"], height=600, scrolling=True)
+    if uploaded_file:
+        df = pd.read_csv(uploaded_file)
+        st.success("CSV file loaded successfully")
+        run_pipeline(df)
 
-            st.write("### AI Generated Insights")
-            st.write(result.get("insights", "No insights generated."))
+# -------------------------------
+# SQL Server Integration
+# -------------------------------
+elif source_type == "SQL Server":
+    st.sidebar.subheader("SQL Server Credentials")
 
-            st.write("### Visualizations")
-            for _, fig in result.get("figures", []):
-                st.plotly_chart(fig, use_container_width=True)
+    server = st.sidebar.text_input("Server (hostname or IP)")
+    database = st.sidebar.text_input("Database")
+    username = st.sidebar.text_input("Username")
+    password = st.sidebar.text_input("Password", type="password")
 
-            report_path = result.get("report_path")
-            if report_path:
-                with open(report_path, "rb") as f:
-                    st.download_button("Download PDF Report", data=f, file_name=Path(report_path).name)
+    mode = st.sidebar.radio("Query Mode", ["Table", "Custom Query"])
 
-    except Exception as e:
-        logger.exception("Error in main app pipeline")
-        st.error(f"Error: {e}")
-else:
-    st.info("Upload a CSV or XLSX file to begin analysis.")
+    table_name = ""
+    sql_query = ""
+
+    if mode == "Table":
+        table_name = st.sidebar.text_input("Table Name")
+    else:
+        sql_query = st.sidebar.text_area("SQL Query")
+
+    if st.sidebar.button("Load Data"):
+        try:
+            conn = connect_sql_server(
+                server=server,
+                database=database,
+                username=username,
+                password=password
+            )
+
+            if mode == "Table":
+                df = fetch_table(conn, table_name)
+            else:
+                df = fetch_query(conn, sql_query)
+
+            st.success("SQL Server data loaded successfully")
+            run_pipeline(df)
+
+        except Exception as e:
+            st.error(f"Failed to connect or fetch data: {e}")
