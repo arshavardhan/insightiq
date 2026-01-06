@@ -1,102 +1,118 @@
-🚀 InsightIQ – Automated Business Intelligence Pipeline
+# 🚀 InsightIQ – Automated Business Intelligence Pipeline
 
-InsightIQ is a no-code automated business intelligence platform that transforms raw datasets into actionable insights with minimal user effort. It enables users to upload data and instantly receive KPIs, visual dashboards, and plain-English summaries, significantly reducing manual analysis time.
+InsightIQ is a **no-code, AI-powered business intelligence platform** that converts raw data into **KPIs, dashboards, and human-readable insights** with minimal user effort.  
+It enables users to upload CSV files or connect directly to SQL databases and instantly generate analytics without writing code.
 
-🧠 Key Features
+---
 
-📊 Automated KPI Generation
-Automatically computes 20+ business KPIs from CSV or SQL-based datasets with 1M+ rows.
+## ✨ Key Features
 
-🧹 Data Cleaning & Profiling
-Performs schema validation, missing value analysis, and statistical profiling using Pandas Profiling.
+- 📂 CSV file ingestion
+- 🗄️ SQL database connectivity
+- 🧩 Microsoft SQL Server integration
+- 📊 Automatic KPI detection and computation
+- 📈 Interactive data exploration
+- 🧠 AI-generated plain-English insight summaries
+- 📄 Automated report generation (PDF-ready pipeline)
+- ⚡ Scalable analytics for large datasets (1M+ rows)
 
-📈 Interactive Dashboards
-Generates dynamic visualizations with Plotly for trend analysis and performance monitoring.
+---
 
-🤖 AI-Generated Insight Summaries
-Uses Flan-T5 LLMs to convert analytical results into human-readable business insights.
+## 🔌 Supported Data Sources
 
-📄 Automated PDF Reports
-One-click generation of downloadable PDF reports for stakeholders.
+### File-Based
+- CSV uploads
 
-☁️ Cloud Deployment
-Deployed on Streamlit Cloud, supporting 10+ concurrent users.
+### Database-Based
+- PostgreSQL
+- MySQL
+- **Microsoft SQL Server**
 
-🛠️ Tech Stack
+---
 
-Programming Language: Python
+## 🗄️ Microsoft SQL Server Integration
 
-Data Processing: Pandas, NumPy
+InsightIQ supports direct connectivity to **Microsoft SQL Server** using `pyodbc`, enabling seamless analytics on enterprise-grade relational databases.
 
-Visualization: Plotly
+### Capabilities
+- Load complete SQL Server tables
+- Execute custom SQL queries
+- Analyze production-scale datasets
+- Reuse the same analytics pipeline used for CSV data
 
-AI / NLP: Flan-T5 (Hugging Face Transformers)
+### Required Driver
+- **ODBC Driver 17 for SQL Server**
 
-Reporting: FPDF, pdfplumber
+---
 
-Web Framework: Streamlit
+## 🧠 System Architecture
 
-Deployment: Streamlit Cloud
+Data Source (CSV / SQL Server)
+↓
+Data Ingestion Layer
+↓
+Data Cleaning & Profiling
+↓
+Automated KPI Engine
+↓
+Visualization & AI Insight Layer
+↓
+Reports / Dashboards
 
-⚙️ Architecture Overview
 
-Data Ingestion – Upload CSV or connect to SQL databases
+---
 
-Preprocessing – Cleaning, validation, and profiling
+## 🛠️ Tech Stack
 
-KPI Engine – Automated metric computation
+- **Python**
+- **Streamlit**
+- **Pandas**
+- **Plotly**
+- **pyodbc**
+- **Large Language Models (Flan-T5)**
+- **FPDF / PDF automation**
 
-Visualization Layer – Interactive dashboards
+---
 
-LLM Layer – Insight summarization using Flan-T5
+## 📦 Installation
 
-Report Generator – Exportable PDF reports
-
-📈 Impact
-
-⏱️ Reduced manual data analysis time by ~70%
-
-⚡ Improved report generation speed by 5×
-
-👥 Supports multi-user concurrent access
-
-📊 Handles large-scale datasets (1M+ rows) efficiently
-
-🚀 How to Run Locally
-# Clone the repository
-git clone https://github.com/your-username/insightiq.git
+bash
+git clone https://github.com/arshavardhan/insightiq.git
 cd insightiq
-
-# Install dependencies
 pip install -r requirements.txt
 
-# Run the app
+▶️ Run the Application
 streamlit run app.py
 
-📌 Use Cases
+📌 Example Use Cases
 
-Business performance analysis
+Automated business KPI reporting
 
-Sales & revenue reporting
+SQL-based analytics for non-technical users
 
-Operational KPI monitoring
+Rapid exploratory data analysis
 
-Data-driven decision support for non-technical users
+AI-assisted insight generation
 
-🔮 Future Enhancements
+No-code BI solutions for startups and enterprises
 
-Role-based access control
+🚀 Why InsightIQ?
 
-Real-time data connectors (APIs)
+InsightIQ bridges the gap between raw data and decision-making by combining:
 
-Advanced forecasting & anomaly detection
+Data engineering pipelines
 
-Support for more LLM models
+Analytics automation
+
+AI-generated business insights
+
+into a single, easy-to-use platform.
 
 👤 Author
 
 Dumpa Venkata Harsha Vardhan
-Entry-Level Python / Software Developer
-📧 Email: dumpaharsha2003@gmail.com
+Entry-level Python / Data / AI Engineer
 
-🔗 GitHub: arshavardhan
+GitHub: https://github.com/arshavardhan
+
+LinkedIn: https://linkedin.com/in/harsha-vardhan-dumpa-862082233
