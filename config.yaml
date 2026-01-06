@@ -1,0 +1,22 @@
+app:
+  name: "InsightIQ"
+  version: "1.0"
+  mode: "local"  # options: local / cloud
+  max_file_size_mb: 100
+  enable_pdf_report: true
+
+paths:
+  data_dir: "data/"
+  report_dir: "reports/"
+  model_dir: "models/flan-t5-base/"
+  log_dir: "logs/"
+
+llm:
+  model_name: "google/flan-t5-small"
+  max_length: 150
+  temperature: 0.7
+
+cloud:
+  storage: "local"  # options: local / s3 / gcs
+  s3_bucket: ""
+  gcs_bucket: ""
